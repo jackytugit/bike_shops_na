@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  checked: false
+  accuracy: 1
+  state: MyString
+  name: MyString
+  address: MyString
+  latitude: 1.5
+  longitude: 1.5
+  phone: MyString
+  zipcode: MyString
+
+two:
+  checked: false
+  accuracy: 1
+  state: MyString
+  name: MyString
+  address: MyString
+  latitude: 1.5
+  longitude: 1.5
+  phone: MyString
+  zipcode: MyString

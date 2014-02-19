@@ -1,0 +1,2 @@
+module BikestoresHelper
+end

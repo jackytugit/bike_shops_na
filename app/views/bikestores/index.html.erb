@@ -1,0 +1,53 @@
+
+<div id="bistores_list" style="height:100%;width:40%;float:left;">
+<h1>Listing bikestores</h1>
+
+<%= will_paginate %>
+<% $i = 0  %>
+<ul class="bikestores">
+  <% @bikestores.each do |bikestore| %>
+    <li>
+        <a href="#" onclick="return bikestore_clicked(<%= $i%>);"><%= bikestore.name %></a><br>
+        <%= bikestore.address %><br>
+        <%= bikestore.phone %><br>
+        <%= link_to 'Show', bikestore %>
+        <%= link_to 'Edit', edit_bikestore_path(bikestore) %>
+        <%= link_to 'Destroy', bikestore, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+    <% $i += 1 %>
+  <% end %>
+</ul>  
+<%= will_paginate %>
+
+<br>
+
+<%= link_to 'New Bikestore', new_bikestore_path %>
+</div>
+<div style='height:100%;width: 60%;float:right;'>
+  <div id="map" style='height:600px;width: 800px'></div>
+</div>
+<script type="text/javascript">
+  handler = Gmaps.build('Google');
+  var markers;
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    var jsonBikeStores = <%=raw @hash.to_json %>;
+    //markers = handler.addMarkers(<%=raw @hash.to_json %>);
+    markers = handler.addMarkers(jsonBikeStores);
+    _.each(jsonBikeStores, function (jsonBikeStore, index) {
+        jsonBikeStore.marker = markers[index];
+    });
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+  });
+
+  function bikestore_clicked(index)
+  {
+    handler.getMap().setZoom(10);
+    marker = markers[index];
+
+    marker.setMap(handler.getMap());
+    marker.panTo();
+    google.maps.event.trigger(marker.getServiceObject(), 'click');
+    return false;
+  }; 
+</script>
